@@ -2,71 +2,109 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 
 public class zoom {
+    private String modality = "CT";
+    private String part = "Arm";
+    private String patientname = "Tom";
 
-    private JFrame zoom = new JFrame("Zoom in");
-    private JLabel z_image = new JLabel(new ImageIcon("D:/Year_3/programming3/group_project/UI/material/naughty_test.jpg"));
-    private File image = new File("D:/Year_3/programming3/group_project/UI/material/naughty_test.jpg");
+    private JFrame zoom = new JFrame("Modality:"+modality+"   "+"Part:"+part+"   "+"Patient name:"+patientname);
+    //private ImageIcon logo = new ImageIcon("D:/Year_3/programming3/group_project/image/logo_w.png");
+    //private ImageIcon image = new ImageIcon("image/b.jpg");
+    //private JLabel image_label = new JLabel(image);
+
+    //private JLabel z_image = new JLabel(new ImageIcon("D:/Year_3/programming3/group_project/UI/material/naughty_test.jpg"));
     private Container zoom_c = zoom.getContentPane();
+
     int ratio;
     int flag = 0;
 
-
+/*
     BufferedImage image_f;
     {
         try {
-            image_f = ImageIO.read(image);
+            image_f = ImageIO.read((ImageInputStream) image);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    int width = image_f.getWidth();
-    int height = image_f.getHeight();
-    int width_n;
-    int height_n;
+    */
 
-    public zoom(){
-        zoom.setBounds(20,20,1000,800);
+    //int width = image_f.getWidth();
+    //int height = image_f.getHeight();
+    //int width_n;
+    //int height_n;
+
+    public zoom(Image image) throws Exception {
+        //zoom.setBounds(20,20,1000,800);
         zoom.setLayout(new BorderLayout());
         zoom.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         zoom.setVisible(true);
-        init();
+        init(image);
+
     }
 
-    public void init(){
-        JPanel fieldPanel = new JPanel();
-        //fieldPanel.setPreferredSize(new Dimension(width,height));
-        fieldPanel.setLayout(null);
-        if (width <= 1000 && height <= 800){
-            z_image.setBounds(5,5,width,height);
-        }else{
-            if (width >1000){
-                while (width >1000){
-                    width = width/2;
-                    flag ++;
-                }
-                int height_n= height/((2)^(flag));
-                z_image.setBounds(5,5,width,height_n);
-            }else{
-                while (height >800){
-                    height = height/20;
-                    flag ++;
-                }
-                int width_n = width/((2)^(flag));
-                z_image.setBounds(5,5,width_n,height);
-            }
+    public void init(Image image) throws Exception {
+        int w = image.getWidth(null)*10;
+        int h = image.getHeight(null)*10;
+        Image bImage = image.getScaledInstance(w, h, Image.SCALE_DEFAULT);
+        //BufferedImage bImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        ImageIcon imageIcon= new ImageIcon(bImage);
+        //JLabel image_label = new JLabel(image);
+        //JFrame frame = new JFrame();
+        JLabel label = new JLabel(new ImageIcon(image));
+        //frame.getContentPane().add(label, BorderLayout.CENTER);
+        //frame.pack();
+        //frame.setVisible(true);
+        JPanel imagepanel = new JPanel();
+        //logopanel.setBounds(0, 0, 400, 130);
+        //logopanel.setBackground(panel_color);
+        //logo_label.setBounds(0, 0, 400, 130);
+        imagepanel.add(label);
+        zoom.add(imagepanel);
+
+        zoom.pack();
+        //zoom.MAXIMIZED_BOTH;
+
+    }
+/*
+    public static Img scale(Img raw, File destImageFile,float scale){
+        try {
+            //获取缩放后的宽高
+            BufferedImage bimg = ImageIO.read(new File(raw.getFile_name()));
+            int width = (int) (bimg.getWidth()*scale);
+            int height = (int) (bimg.getHeight()*scale);
+            //调用缩放方法获取缩放后的图片
+            Image img = bimg.getScaledInstance(width , height, Image.SCALE_DEFAULT);
+            //创建一个新的缓存图片
+           /* BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            //获取画笔
+            Graphics2D graphics = image.createGraphics();
+            //将Image对象画在画布上,最后一个参数,ImageObserver:接收有关 Image 信息通知的异步更新接口,没用到直接传空
+            graphics.drawImage(img, 0, 0,null);
+            //一定要释放资源
+            graphics.dispose();
+            //获取到文件的后缀名
+            String fileName = srcImageFile.getName();
+            String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
+            //使用ImageIO的write方法进行输出
+            ImageIO.write(image,formatName,destImageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
+        return true;
+        return
 
-        fieldPanel.add(z_image);
-        zoom_c.add(fieldPanel, "Center");
-        fieldPanel.setVisible(true);
+ */
 
-
-    }
+ /*
     public static void main(String[] args) {
+        /*
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -79,6 +117,6 @@ public class zoom {
         }
         new zoom();
     }
-
+*/
 
 }
